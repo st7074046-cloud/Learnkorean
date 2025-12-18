@@ -1,0 +1,2197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Korean Learning Quiz</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap');
+
+  :root {
+    --primary: #1877f2;
+    --primary-soft: #1e60c2;
+    --accent: #42b72a;
+    --surface: #ffffff;
+    --background: #f0f2f5;
+    --text: #1f2836;
+    --text-muted: #606770;
+    --text-light: #8a97b2;
+    --border: #d2dae4;
+    --shadow: 0 14px 38px rgba(29, 45, 77, 0.15);
+    --panel-shadow: 0 20px 40px rgba(6, 23, 80, 0.2);
+    --radius: 20px;
+    --transition: all 0.3s ease;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Noto Sans KR', 'Roboto', Arial, sans-serif;
+    background: var(--background);
+    color: var(--text);
+    line-height: 1.5;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+    min-height: 100vh;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Noto Sans KR', 'Roboto', sans-serif;
+  }
+
+  .page {
+    display: none;
+    height: calc(100vh - 60px - 70px);
+    overflow-y: auto;
+    background: var(--background);
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .page.active {
+    display: block;
+  }
+
+  /* Login/Signup Pages */
+  .auth-page {
+    min-height: 100vh;
+    background: var(--background);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 16px;
+    position: relative;
+  }
+
+  .top-bar {
+    width: min(960px, 100%);
+    margin: 0 auto 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+    padding: 0 8px;
+    font-size: 0.9rem;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+  }
+
+  .logo-mark {
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    font-size: 1.4rem;
+    letter-spacing: 1px;
+  }
+
+  .logo-mark .icon {
+    width: 40px;
+    height: 40px;
+    background: #fff;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    margin-right: 10px;
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  .auth-layout {
+    width: min(1100px, 100%);
+    background: #fff;
+    border-radius: 30px;
+    box-shadow: var(--panel-shadow);
+    display: flex;
+    overflow: hidden;
+  }
+
+  .hero {
+    flex: 1;
+    padding: 48px;
+    color: #fff;
+    background: linear-gradient(145deg, #1b74e4, #0f63c0);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 18px;
+  }
+
+  .hero h1 {
+    font-size: 2.8rem;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+  }
+
+  .hero p {
+    font-size: 1.1rem;
+    max-width: 320px;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.2);
+    font-size: 0.9rem;
+    width: fit-content;
+  }
+
+  .hero-badge i {
+    font-size: 0.9rem;
+  }
+
+  .auth-section {
+    flex: 1;
+    padding: 48px;
+    background: var(--background);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .auth-card {
+    width: 100%;
+    background: var(--surface);
+    border-radius: 22px;
+    padding: 34px 30px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+  }
+
+  .auth-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+
+  .logo-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--primary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.2rem;
+  }
+
+  .auth-card h2 {
+    margin: 0;
+    font-size: 1.7rem;
+    color: var(--text);
+  }
+
+  .auth-card .sub {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+
+  .auth-card label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+    margin-top: 16px;
+  }
+
+  .auth-input {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    font-size: 1rem;
+    margin-bottom: 12px;
+    background: #fff;
+    transition: var(--transition);
+  }
+
+  .auth-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.2);
+  }
+
+  .auth-btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 14px;
+    border: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-top: 14px;
+    letter-spacing: 0.3px;
+  }
+
+  .login-btn {
+    background: var(--primary);
+    color: #fff;
+  }
+
+  .register-btn {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  .auth-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(24, 119, 242, 0.35);
+  }
+
+  .auth-switch {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+  }
+
+  .auth-switch .auth-link {
+    color: var(--primary);
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .auth-switch .auth-link:hover {
+    text-decoration: underline;
+  }
+
+  .signup-message {
+    min-height: 20px;
+    margin-top: 8px;
+    font-size: 0.9rem;
+    color: #157145;
+    text-align: center;
+  }
+
+  @media (max-width: 900px) {
+    .auth-layout {
+      flex-direction: column;
+      border-radius: 24px;
+    }
+
+    .hero {
+      padding: 32px;
+    }
+
+    .auth-section {
+      padding: 32px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .auth-page {
+      padding: 20px 12px;
+    }
+
+    .auth-card {
+      padding: 26px 22px;
+    }
+
+    .hero h1 {
+      font-size: 2.2rem;
+    }
+  }
+
+  /* App Header */
+  .app-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--surface);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--shadow);
+    z-index: 1000;
+    height: 60px;
+  }
+
+  .app-header .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--primary);
+  }
+
+  .logo-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--primary);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+
+  .profile-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff5b5b, #ffb347);
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: 0 10px 25px rgba(255, 91, 91, 0.4);
+    z-index: 1200;
+    }
+
+  .profile-btn:hover {
+    transform: scale(1.05);
+  }
+
+  /* Bottom Navigation */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--surface);
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+    z-index: 1000;
+    height: 70px;
+  }
+
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    background: none;
+    border: none;
+    color: var(--text-light);
+    font-size: 0.75rem;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: var(--radius);
+    transition: var(--transition);
+    flex: 1;
+    max-width: 100px;
+  }
+
+  .nav-item i {
+    font-size: 1.1rem;
+  }
+
+  .nav-item.active {
+    color: var(--primary);
+    background: rgba(24, 119, 242, 0.1);
+    font-weight: 600;
+  }
+
+  /* Home Page Content - Compact */
+  .home-content {
+    padding: 16px;
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  .welcome-card {
+    background: linear-gradient(135deg, var(--primary), #4a6fff);
+    color: white;
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+    min-height: 120px;
+  }
+
+  .welcome-card h1 {
+    font-size: 1.5rem;
+    margin-bottom: 6px;
+    position: relative;
+  }
+
+  .welcome-card p {
+    opacity: 0.9;
+    font-size: 0.9rem;
+    position: relative;
+  }
+
+  .points-chip {
+    margin-top: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    background: rgba(255, 255, 255, 0.18);
+    padding: 6px 14px;
+    border-radius: 999px;
+    color: #fff;
+  }
+
+  .points-chip i {
+    color: #ffe56f;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .stat-card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 14px 10px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .stat-card .value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 4px;
+  }
+
+  .stat-card .label {
+    font-size: 0.8rem;
+    color: var(--text-light);
+  }
+
+  .play-quiz-card {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+    margin-bottom: 20px;
+    min-height: 140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .play-quiz-card h2 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    color: var(--text);
+  }
+
+  .play-quiz-card p {
+    color: var(--text-light);
+    margin-bottom: 16px;
+    font-size: 0.9rem;
+  }
+
+  .play-btn {
+    background: linear-gradient(135deg, #ff5b5b, #ff9b9b);
+    color: white;
+    border: none;
+    padding: 14px 30px;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: var(--transition);
+    box-shadow: 0 8px 25px rgba(255, 91, 91, 0.3);
+    position: relative;
+    z-index: 5;
+  }
+
+  .play-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(66, 183, 42, 0.4);
+  }
+
+  .play-btn i {
+    font-size: 1.1rem;
+  }
+
+  .recent-activity {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 16px;
+    box-shadow: var(--shadow);
+    min-height: 120px;
+  }
+
+  .recent-activity h3 {
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .score-history {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 18px;
+    margin: 20px auto;
+    max-width: 900px;
+    box-shadow: var(--shadow);
+  }
+
+  .score-history h3 {
+    margin-bottom: 12px;
+    font-size: 1.2rem;
+  }
+
+  .score-history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 260px;
+    overflow-y: auto;
+  }
+
+  .score-history-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    background: #f8f9ff;
+    border: 1px solid var(--border);
+  }
+
+  .score-history-item .score-label {
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .score-history-item .score-date {
+    font-size: 0.85rem;
+    color: var(--text-light);
+  }
+
+  .score-history-list .empty {
+    text-align: center;
+    color: var(--text-light);
+    padding: 14px;
+  }
+
+  .activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .activity-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: var(--radius-sm);
+    background: rgba(24, 119, 242, 0.05);
+    font-size: 0.9rem;
+  }
+
+  .activity-item i {
+    color: var(--primary);
+    font-size: 1rem;
+  }
+
+  /* Leaderboard Page - Compact */
+  .leaderboard-content {
+    padding: 16px;
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  .leaderboard-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .leaderboard-header h1 {
+    font-size: 1.5rem;
+    color: var(--primary);
+    margin-bottom: 6px;
+  }
+
+  .leaderboard-header p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+  }
+
+  .leaderboard-container {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  .leaderboard-item {
+    display: flex;
+    align-items: center;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    transition: var(--transition);
+    min-height: 70px;
+  }
+
+  .leaderboard-item:last-child {
+    border-bottom: none;
+  }
+
+  .rank {
+    font-size: 1.1rem;
+    font-weight: 700;
+    width: 32px;
+    text-align: center;
+    color: var(--text-light);
+    margin-right: 8px;
+  }
+
+  .rank-1 { color: #ffd700; }
+  .rank-2 { color: #c0c0c0; }
+  .rank-3 { color: #cd7f32; }
+
+  .player-info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .player-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+
+  .player-details {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .player-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .player-email {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .player-score {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    min-width: 110px;
+  }
+
+  .score-value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--primary);
+  }
+
+  .score-secondary {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .leaderboard-item.is-current {
+    background: rgba(24, 119, 242, 0.08);
+    border-left: 3px solid var(--primary);
+  }
+
+  .leaderboard-loading,
+  .leaderboard-empty {
+    text-align: center;
+    padding: 24px;
+    color: var(--text-muted);
+  }
+
+  /* Quiz Page - Compact */
+  .quiz-content {
+    padding: 16px;
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  .quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .quiz-progress {
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .progress-bar {
+    height: 6px;
+    background: rgba(24, 119, 242, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 6px;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(to right, var(--primary), var(--primary-dark));
+    border-radius: 3px;
+    transition: width 0.5s ease;
+  }
+
+  .progress-text {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    text-align: right;
+  }
+
+  .quiz-score {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--primary);
+    white-space: nowrap;
+  }
+
+  .question-card {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow-lg);
+    text-align: center;
+    min-height: 140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .question-number {
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 0.85rem;
+    margin-bottom: 10px;
+  }
+
+  .question-text {
+    font-size: 1.2rem;
+    line-height: 1.3;
+    margin-bottom: 0;
+  }
+
+  .answers-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .answer-btn {
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 14px;
+    font-size: 0.95rem;
+    text-align: left;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 60px;
+  }
+
+  .answer-btn:hover:not(.disabled) {
+    border-color: var(--primary);
+    background: rgba(24, 119, 242, 0.05);
+  }
+
+  .answer-btn.correct {
+    border-color: var(--secondary);
+    background: rgba(66, 183, 42, 0.1);
+  }
+
+  .answer-btn.incorrect {
+    border-color: #ff4757;
+    background: rgba(255, 71, 87, 0.1);
+  }
+
+  .answer-btn.disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  .answer-letter {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--background);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: var(--text);
+    flex-shrink: 0;
+    font-size: 0.9rem;
+  }
+
+  .quiz-controls {
+    display: flex;
+    gap: 10px;
+    position: sticky;
+    bottom: 0;
+    background: var(--background);
+    padding: 10px 0;
+    margin-top: auto;
+  }
+
+  .control-btn {
+    flex: 1;
+    padding: 14px;
+    border-radius: var(--radius);
+    border: none;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+
+  .next-btn {
+      background: linear-gradient(135deg, #ff5b5b, #ff8245);
+      color: white;
+    }
+
+  .next-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255, 91, 91, 0.3);
+    }
+
+  .finish-btn {
+    background: linear-gradient(135deg, var(--secondary), var(--secondary-dark));
+    color: white;
+  }
+
+  /* Profile Dropdown */
+  .profile-dropdown {
+    position: fixed;
+    top: 60px;
+    right: 16px;
+    background: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    min-width: 200px;
+    z-index: 1001;
+    overflow: hidden;
+    display: none;
+    animation: slideDown 0.2s ease;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--text);
+    font-size: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .dropdown-item:last-child {
+    border-bottom: none;
+  }
+
+  .dropdown-item:hover {
+    background: rgba(24, 119, 242, 0.05);
+  }
+
+  .dropdown-item i {
+    width: 20px;
+    color: var(--primary);
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    top: 70px;
+    right: 16px;
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transform: translateX(150%);
+    transition: transform 0.3s ease;
+    z-index: 1500;
+    max-width: 300px;
+  }
+
+  .toast.show {
+    transform: translateX(0);
+  }
+
+  .toast-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.8rem;
+  }
+
+  .toast.success .toast-icon {
+    background: var(--secondary);
+  }
+
+  .toast.error .toast-icon {
+    background: #ff4757;
+  }
+
+  /* Mobile Responsive */
+  @media (min-width: 768px) {
+    .hero {
+      display: block;
+    }
+    
+    .auth-layout {
+      flex-direction: row;
+      align-items: center;
+    }
+    
+    .answers-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-height: 700px) {
+    .welcome-card {
+      min-height: 100px;
+      padding: 16px;
+    }
+    
+    .play-quiz-card {
+      min-height: 120px;
+      padding: 16px;
+    }
+    
+    .stat-card {
+      min-height: 70px;
+      padding: 12px 8px;
+    }
+    
+    .question-card {
+      min-height: 120px;
+      padding: 16px;
+    }
+    
+    .answer-btn {
+      min-height: 55px;
+      padding: 14px 12px;
+    }
+  }
+
+  /* Animation */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .fade-in {
+    animation: fadeIn 0.5s ease;
+  }
+
+  .slide-up {
+    animation: slideUp 0.4s ease;
+  }
+
+  .hidden {
+    display: none;
+  }
+</style>
+</head>
+
+<body>
+<!-- Login Page -->
+<div id="loginPage" class="auth-page">
+  <header class="top-bar">
+    <div class="logo-mark">
+      <span class="icon">KQ</span>
+      Korean Quiz Hub
+    </div>
+    <div class="top-login-note">
+      <strong>Need help?</strong> contact@learnkorean.app
+    </div>
+  </header>
+
+  <main class="auth-layout">
+    <section class="hero">
+      <div class="hero-badge">
+        <i class="fas fa-lightbulb"></i>
+        Study smarter together
+      </div>
+      <h1>Play Korean quizzes with a familiar social vibe.</h1>
+      <p>Log in to keep your streak, compare points with friends, and celebrate every new word.</p>
+    </section>
+
+    <section class="auth-section" id="authBox">
+      <div class="auth-card" id="loginPanel">
+        <div class="auth-card-header">
+          <span class="logo-circle">KQ</span>
+          <div>
+            <h2>Log In</h2>
+            <span class="sub">Continue where you left off.</span>
+          </div>
+        </div>
+        <label for="loginEmail">Email</label>
+        <input id="loginEmail" type="email" class="auth-input" placeholder="Enter your email">
+        <label for="loginPassword">Password</label>
+        <input id="loginPassword" type="password" class="auth-input" placeholder="Enter your password">
+        <button type="button" id="loginSubmitBtn" class="auth-btn login-btn">Log In</button>
+        <div class="auth-switch">
+          Don't have an account? <span class="auth-link" id="signupLink">Sign up</span>
+        </div>
+      </div>
+      <div class="hidden">
+        <input id="email" type="email">
+        <input id="password" type="password">
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- Signup Page -->
+<div id="signupPage" class="auth-page hidden">
+  <header class="top-bar">
+    <div class="logo-mark">
+      <span class="icon">KQ</span>
+      Korean Quiz Hub
+    </div>
+    <div class="top-login-note">
+      <strong>Need help?</strong> contact@learnkorean.app
+    </div>
+  </header>
+
+  <main class="auth-layout">
+    <section class="hero">
+      <div class="hero-badge">
+        <i class="fas fa-users"></i>
+        Join the crew
+      </div>
+      <h1>Create a free account and climb the leaderboard.</h1>
+      <p>Every quiz is saved, every point counts, and you can return anytime from any device.</p>
+    </section>
+
+    <section class="auth-section" id="signupBox">
+      <div class="auth-card" id="signupPanel">
+        <div class="auth-card-header">
+          <span class="logo-circle">KQ</span>
+          <div>
+            <h2>Create New Account</h2>
+            <span class="sub">Saved scores are waiting for you.</span>
+          </div>
+        </div>
+        <label for="signupEmail">Email</label>
+        <input id="signupEmail" type="email" class="auth-input" placeholder="Enter your email">
+        <label for="signupPassword">Password</label>
+        <input id="signupPassword" type="password" class="auth-input" placeholder="Create a password">
+        <label for="signupConfirmPassword">Confirm Password</label>
+        <input id="signupConfirmPassword" type="password" class="auth-input" placeholder="Confirm your password">
+        <button type="button" id="registerSubmitBtn" class="auth-btn register-btn">Create Account</button>
+        <div class="signup-message" id="signupMessage"></div>
+        <div class="auth-switch">
+          Already have an account? <span class="auth-link" id="loginLink">Log in</span>
+        </div>
+      </div>
+      <div class="hidden">
+        <input id="signupEmailHidden" type="email">
+        <input id="signupPasswordHidden" type="password">
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- App Container (Shown after login) -->
+<div id="appContainer" style="display: none;">
+  <!-- App Header -->
+  <header class="app-header">
+    <div class="logo">
+      <div class="logo-icon">KQ</div>
+      <span>Korean Quiz</span>
+    </div>
+    <button class="profile-btn" id="profileBtn">
+      <i class="fas fa-user"></i>
+    </button>
+  </header>
+
+  <!-- Profile Dropdown -->
+  <div class="profile-dropdown" id="profileDropdown">
+    <div id="profileInfo" style="padding: 16px; border-bottom: 1px solid var(--border);">
+      <div style="font-weight: 600; margin-bottom: 4px;" id="profileName"></div>
+      <div style="font-size: 0.85rem; color: var(--text-light);" id="profileEmail"></div>
+    </div>
+    <button class="dropdown-item" id="logoutBtn" type="button">
+      <i class="fas fa-sign-out-alt"></i>
+      <span>Log Out</span>
+    </button>
+  </div>
+
+  <!-- Home Page -->
+  <div id="homePage" class="page active">
+    <div class="home-content">
+      <div class="welcome-card slide-up">
+        <h1 id="welcomeText">Welcome!</h1>
+        <p>Ready to test your Korean knowledge?</p>
+        <div class="points-chip">
+          <i class="fas fa-gem"></i>
+          <span id="totalPoints">0 pts</span>
+        </div>
+      </div>
+      
+      <div class="stats-grid fade-in">
+        <div class="stat-card">
+          <div class="value" id="totalQuizzes">0</div>
+          <div class="label">Quizzes Taken</div>
+        </div>
+        <div class="stat-card">
+          <div class="value" id="highScore">0</div>
+          <div class="label">High Score</div>
+        </div>
+        <div class="stat-card">
+          <div class="value" id="rank">#--</div>
+          <div class="label">Your Rank</div>
+        </div>
+      </div>
+      
+      <div class="play-quiz-card fade-in">
+        <h2>Korean Quiz Challenge</h2>
+        <p>10 random questions · Test your Korean</p>
+        <button class="play-btn" id="startQuizBtn">
+          <i class="fas fa-play-circle"></i> Start Quiz
+        </button>
+      </div>
+      
+      <div class="recent-activity fade-in">
+        <h3><i class="fas fa-history"></i> Recent Activity</h3>
+        <div class="activity-list" id="recentActivity">
+          <div class="activity-item">
+            <i class="fas fa-star"></i>
+            <span>Welcome to Korean Quiz!</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="score-history fade-in">
+        <h3>Your Score History</h3>
+        <div id="userScoresList" class="score-history-list">
+          <div class="empty">Complete a quiz to see your saved results.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Leaderboard Page -->
+<div id="leaderboardPage" class="page">
+    <div class="leaderboard-content">
+      <div class="leaderboard-header slide-up">
+        <h1><i class="fas fa-trophy"></i> Leaderboard</h1>
+        <p>Top 10 Korean language learners</p>
+      </div>
+      
+      <div class="leaderboard-container fade-in" id="leaderboardContainer">
+        <!-- Leaderboard items will be added here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Quiz Page -->
+  <div id="quizPage" class="page">
+    <div class="quiz-content">
+      <div class="quiz-header fade-in">
+        <div class="quiz-progress">
+          <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+          <div class="progress-text" id="progressText">Question 0/10</div>
+        </div>
+        <div class="quiz-score" id="currentScore">Score: 0</div>
+      </div>
+      
+      <div class="question-card slide-up" id="questionCard">
+        <div class="question-number" id="questionNumber">Question 1</div>
+        <div class="question-text" id="questionText"></div>
+      </div>
+      
+      <div class="answers-grid fade-in" id="answersGrid">
+        <!-- Answer buttons will be added here -->
+      </div>
+      
+      <div class="quiz-controls">
+        <button class="control-btn next-btn" id="nextQuestionBtn" style="display: none;">
+          Next Question <i class="fas fa-arrow-right"></i>
+        </button>
+        <button class="control-btn finish-btn" id="finishQuizBtn" style="display: none;">
+          Finish Quiz <i class="fas fa-flag-checkered"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bottom Navigation -->
+<nav class="bottom-nav" id="bottomNav" style="display: none;">
+  <button class="nav-item active" data-page="homePage">
+    <i class="fas fa-home"></i>
+    <span>Home</span>
+  </button>
+  <button class="nav-item" data-page="leaderboardPage">
+    <i class="fas fa-trophy"></i>
+    <span>Leaderboard</span>
+  </button>
+</nav>
+
+<!-- Toast Notification -->
+<div class="toast" id="toast">
+  <div class="toast-icon">
+    <i class="fas fa-check"></i>
+  </div>
+  <div class="toast-message" id="toastMessage"></div>
+</div>
+
+<!-- Firebase -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+  import { getDatabase, ref, set, push, onValue, update } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyC-GAwMzg3ZvPfHlnKzHtDJ33Cgl4W0WqY",
+    authDomain: "learnkorean-51cd8.firebaseapp.com",
+    projectId: "learnkorean-51cd8",
+    storageBucket: "learnkorean-51cd8.firebasestorage.app",
+    messagingSenderId: "885912515450",
+    appId: "1:885912515450:web:e5d7dc617e81b381155cc3",
+    measurementId: "G-R6JDB9GKLW"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getDatabase(app);
+  
+  // Global variables
+  let currentUser = null;
+  let userData = null;
+  let currentQuestionIndex = 0;
+  let score = 0;
+  let selectedAnswer = null;
+  let quizCompleted = false;
+  let pageHistory = ['homePage'];
+  let currentPage = 'homePage';
+  let userScoresUnsubscribe = null;
+  let leaderboardUnsubscribe = null;
+  let currentQuizQuestions = [];
+
+  // Expanded quiz data (50 questions for variety)
+  const quizQuestions = [
+    { q: "다음 중 '감사합니다'의 뜻으로 맞는 것은?", a: ["Thank you", "Hello", "Sorry", "Goodbye"], c: 0 },
+    { q: "다음 중 '사랑해'가 뜻하는 영어 표현은?", a: ["I love you", "Best wishes", "See you", "Excuse me"], c: 0 },
+    { q: "'친구'를 영어로 어떻게 말하나요?", a: ["Friend", "Teacher", "Family", "Leader"], c: 0 },
+    { q: "'어디에 가요?'는 무슨 뜻인가요?", a: ["Where are you going?", "What is this?", "When is it?", "How are you?"], c: 0 },
+    { q: "어떤 표현이 '맛있다'와 가장 비슷한 의미인가요?", a: ["Delicious", "Tasty", "Full", "Hungry"], c: 0 },
+    { q: "다음 단어 중 '학교'는 어떤 것인가요?", a: ["Hakgyo", "Chaek", "Maeum", "Jib"], c: 0 },
+    { q: "'대박'을 가장 잘 표현한 영어는?", a: ["Amazing/Great", "Sad", "Angry", "Tired"], c: 0 },
+    { q: "'잘 지내?'는 어떤 영어 질문인가요?", a: ["How are you?", "What are you doing?", "Where do you live?", "What's for lunch?"], c: 0 },
+    { q: "'물'의 정확한 영어 표현은?", a: ["Water", "Wind", "Stone", "Cloud"], c: 0 },
+    { q: "'바다'는 무엇을 나타내는 단어인가요?", a: ["Sea/Ocean", "Mountain", "River", "Lake"], c: 0 },
+  { q: "How do you say 'Friend' in Korean?", a: ["Chingu", "Jib", "Hakgyo", "Bye"], c: 0 },
+    { q: "What does 'Mangtta' mean?", a: ["To listen", "To wait", "To taste", "To run"], c: 2 },
+    { q: "Translate 'Bap' to English.", a: ["Rice", "Book", "Road", "Song"], c: 0 },
+    { q: "What does 'Haksaeng' mean?", a: ["Worker", "Student", "Teacher", "Doctor"], c: 1 },
+    { q: "Which word means 'Family'?", a: ["Gajok", "Gonggan", "Joreum", "Chada"], c: 0 },
+    { q: "How do you say 'I love you' in Korean?", a: ["Saranghae", "Gamsahamnida", "Mianhae", "Annyeong"], c: 0 },
+    { q: "What does 'Hana' mean?", a: ["One", "Two", "Three", "Four"], c: 0 },
+    { q: "How do you say 'School' in Korean?", a: ["Hakgyo", "Jib", "Gongwon", "Sikdang"], c: 0 },
+    { q: "What does 'Chukkae' mean?", a: ["Congratulations", "Sorry", "Please", "Excuse me"], c: 0 },
+    { q: "Which is the Korean word for 'Book'?", a: ["Chaek", "Biro", "Kkachi", "Namu"], c: 0 },
+    { q: "What does 'Odi' mean?", a: ["Where", "When", "Why", "How"], c: 0 },
+    { q: "How do you say 'Good morning' in Korean?", a: ["Annyeonghi jumuseyo", "Annyeonghi gyeseyo", "Joh-eun achim", "Sae hae bok mani badeuseyo"], c: 2 },
+    { q: "What does 'Hanguk' mean?", a: ["Korea", "Japan", "China", "America"], c: 0 },
+    { q: "Which word means 'Delicious'?", a: ["Masitneun", "Apgujeong", "Areumdaun", "Buldak"], c: 0 },
+    { q: "What does 'Daebak' mean?", a: ["Amazing/Great", "Sad", "Angry", "Tired"], c: 0 },
+    { q: "How do you say 'Sorry' in Korean?", a: ["Mianhamnida", "Gamsahamnida", "Annyeong", "Saranghae"], c: 0 },
+    { q: "What does 'Oppa' mean?", a: ["Older brother (female speaking)", "Younger brother", "Father", "Uncle"], c: 0 },
+    { q: "Which is 'Red' in Korean?", a: ["Bbalgan", "Chorok", "Paran", "Noran"], c: 0 },
+    { q: "What does 'Jal jinae' mean?", a: ["How are you?", "Goodbye", "Thank you", "I'm fine"], c: 0 },
+    { q: "How do you say 'Money' in Korean?", a: ["Don", "Gong", "Bang", "Ssal"], c: 0 },
+    { q: "What does 'Daedanhi' mean?", a: ["Greatly/Very", "Slowly", "Quickly", "Quietly"], c: 0 },
+    { q: "Which word means 'Coffee'?", a: ["Keopi", "Uyu", "Cha", "Sul"], c: 0 },
+    { q: "What does 'Yeogi' mean?", a: ["Here", "There", "Where", "Everywhere"], c: 0 },
+    { q: "How do you say 'Phone' in Korean?", a: ["Hwaja", "Teureobijon", "Keomyuteo", "Jeonhwa"], c: 3 },
+    { q: "What does 'Naeil' mean?", a: ["Tomorrow", "Yesterday", "Today", "Now"], c: 0 },
+    { q: "Which is 'Blue' in Korean?", a: ["Paran", "Bbalgan", "Chorok", "Noran"], c: 0 },
+    { q: "What does 'Uri' mean?", a: ["We/Our", "You", "They", "He"], c: 0 },
+    { q: "How do you say 'House' in Korean?", a: ["Jib", "Hakgyo", "Sikdang", "Gongwon"], c: 0 },
+    { q: "What does 'Jigeum' mean?", a: ["Now", "Later", "Before", "After"], c: 0 },
+    { q: "Which word means 'Dog'?", a: ["Gae", "Goyangi", "Dolsingae", "Saekki"], c: 0 },
+    { q: "What does 'Jeongmal' mean?", a: ["Really", "Maybe", "Never", "Always"], c: 0 },
+    { q: "How do you say 'City' in Korean?", a: ["Dosi", "Gugga", "Dongne", "Gori"], c: 0 },
+    { q: "What does 'Mwo' mean?", a: ["What", "Who", "Why", "How"], c: 0 },
+    { q: "Which is 'White' in Korean?", a: ["Hayan", "Geomeun", "Bbalgan", "Paran"], c: 0 },
+    { q: "What does 'Ireoke' mean?", a: ["Like this", "Like that", "Over there", "Somewhere"], c: 0 },
+    { q: "How do you say 'Time' in Korean?", a: ["Sigan", "Nal", "Dae", "Gyeonggi"], c: 0 },
+    { q: "What does 'Geurae' mean?", a: ["Okay/Yes", "No", "Maybe", "Why"], c: 0 },
+    { q: "Which word means 'Night'?", a: ["Bam", "Achim", "Jeonyeok", "Ohu"], c: 0 },
+    { q: "What does 'Wae' mean?", a: ["Why", "What", "Where", "When"], c: 0 },
+    { q: "How do you say 'Music' in Korean?", a: ["Eumak", "Yesul", "Muhyeong", "Gisul"], c: 0 },
+    { q: "What does 'Majimak' mean?", a: ["Last", "First", "Next", "Middle"], c: 0 },
+    { q: "Which is 'Black' in Korean?", a: ["Geomeun", "Hayan", "Bbalgan", "Noran"], c: 0 },
+    { q: "What does 'Gwaenchanh-a' mean?", a: ["It's okay/No problem", "Help me", "I don't know", "Let's go"], c: 0 },
+    { q: "How do you say 'World' in Korean?", a: ["Sesang", "Gureum", "Bada", "San"], c: 0 },
+    { q: "What does 'Uri-wa' mean?", a: ["With us", "With you", "With them", "Alone"], c: 0 }
+  ];
+
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+
+  // DOM Elements
+  const loginPage = document.getElementById('loginPage');
+  const signupPage = document.getElementById('signupPage');
+  const appContainer = document.getElementById('appContainer');
+  const bottomNav = document.getElementById('bottomNav');
+  const profileBtn = document.getElementById('profileBtn');
+  const profileDropdown = document.getElementById('profileDropdown');
+  const signupLink = document.getElementById('signupLink');
+  const loginLink = document.getElementById('loginLink');
+  const loginSubmitBtn = document.getElementById('loginSubmitBtn');
+  const registerSubmitBtn = document.getElementById('registerSubmitBtn');
+  const signupMessage = document.getElementById('signupMessage');
+  const logoutBtn = document.getElementById('logoutBtn');
+  const startQuizBtn = document.getElementById('startQuizBtn');
+  const navItems = document.querySelectorAll('.nav-item');
+  const pages = document.querySelectorAll('.page');
+  const toast = document.getElementById('toast');
+  const toastMessage = document.getElementById('toastMessage');
+
+  // Initialize
+  document.addEventListener('DOMContentLoaded', () => {
+    // Set viewport height for mobile
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight);
+    
+    // Set up event listeners
+    profileBtn.addEventListener('click', toggleProfileDropdown);
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
+        profileDropdown.style.display = 'none';
+      }
+    });
+
+    if (signupLink) {
+      signupLink.addEventListener('click', (event) => {
+        event.preventDefault();
+        showSignupPage();
+      });
+    }
+
+    if (loginLink) {
+      loginLink.addEventListener('click', (event) => {
+        event.preventDefault();
+        showLoginPage();
+      });
+    }
+
+    // Navigation
+    navItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const pageId = item.getAttribute('data-page');
+        navigateTo(pageId);
+        
+        // Update active nav item
+        navItems.forEach(nav => nav.classList.remove('active'));
+        item.classList.add('active');
+      });
+    });
+
+    // Start quiz button
+    startQuizBtn.addEventListener('click', startQuiz);
+
+    loginSubmitBtn?.addEventListener('click', (event) => {
+      event.preventDefault();
+      handleLogin();
+    });
+
+    registerSubmitBtn?.addEventListener('click', (event) => {
+      event.preventDefault();
+      handleRegister();
+    });
+
+    logoutBtn?.addEventListener('click', (event) => {
+      event.preventDefault();
+      logout();
+    });
+
+    // Handle mobile back button
+    window.addEventListener('popstate', handleBackButton);
+
+    // Check auth state
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        currentUser = user;
+        loadUserData();
+        showApp();
+        loadUserScores();
+      } else {
+        showLogin();
+      }
+    });
+  });
+
+  // Set viewport height for mobile
+  function setViewportHeight() {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}`);
+  }
+
+  // Show toast notification
+  function showToast(message, type = 'success') {
+    toast.className = `toast ${type}`;
+    toastMessage.textContent = message;
+    toast.classList.add('show');
+    
+    setTimeout(() => {
+      toast.classList.remove('show');
+    }, 3000);
+  }
+
+  // Show login/signup pages
+  function showLoginPage() {
+    loginPage.classList.remove('hidden');
+    signupPage.classList.add('hidden');
+    if (signupMessage) {
+      signupMessage.textContent = '';
+    }
+  }
+
+  function showSignupPage() {
+    loginPage.classList.add('hidden');
+    signupPage.classList.remove('hidden');
+    if (signupMessage) {
+      signupMessage.textContent = '';
+    }
+  }
+
+  // Profile dropdown
+  function toggleProfileDropdown() {
+    if (profileDropdown.style.display === 'block') {
+      profileDropdown.style.display = 'none';
+    } else {
+      profileDropdown.style.display = 'block';
+      updateProfileDropdown();
+    }
+  }
+
+  function updateProfileDropdown() {
+    if (!currentUser || !userData) return;
+    
+    const displayName = userData.displayName || currentUser.email.split('@')[0];
+    document.getElementById('profileName').textContent = displayName;
+    document.getElementById('profileEmail').textContent = currentUser.email;
+  }
+
+  // Navigation functions
+  function navigateTo(pageId) {
+    if (currentPage === pageId) return;
+    
+    // Add to history
+    pageHistory.push(pageId);
+    
+    // Update pages
+    pages.forEach(page => page.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
+    
+    // Update current page
+    currentPage = pageId;
+    
+    // Update browser history
+    window.history.pushState({ page: pageId }, '', `#${pageId}`);
+    
+    // Load data for the page
+    if (pageId === 'homePage') {
+      updateHomePage();
+    } else if (pageId === 'leaderboardPage') {
+      loadLeaderboard();
+    }
+    
+    // Hide profile dropdown
+    profileDropdown.style.display = 'none';
+  }
+
+  function handleBackButton() {
+    if (pageHistory.length > 1) {
+      pageHistory.pop(); // Remove current page
+      const previousPage = pageHistory[pageHistory.length - 1];
+      navigateTo(previousPage);
+      
+      // Update nav items
+      navItems.forEach(item => {
+        if (item.getAttribute('data-page') === previousPage) {
+          item.classList.add('active');
+        } else {
+          item.classList.remove('active');
+        }
+      });
+    }
+  }
+
+  // Show/Hide app
+  function showApp() {
+    loginPage.classList.add('hidden');
+    signupPage.classList.add('hidden');
+    appContainer.style.display = 'block';
+    bottomNav.style.display = 'flex';
+    updateHomePage();
+    loadLeaderboard();
+    showToast(`Welcome back!`, 'success');
+  }
+
+  function showLogin() {
+    loginPage.classList.remove('hidden');
+    signupPage.classList.add('hidden');
+    appContainer.style.display = 'none';
+    bottomNav.style.display = 'none';
+  }
+
+  // Login/Register functions
+  function syncAuthFields(formPrefix) {
+    const sourceEmail = document.getElementById(formPrefix + "Email");
+    const sourcePassword = document.getElementById(formPrefix + "Password");
+    const targetEmail = document.getElementById("email");
+    const targetPassword = document.getElementById("password");
+    
+    if (sourceEmail && sourcePassword && targetEmail && targetPassword) {
+      targetEmail.value = sourceEmail.value;
+      targetPassword.value = sourcePassword.value;
+    }
+  }
+
+  function syncSignupFields() {
+    const email = document.getElementById('signupEmail').value;
+    const password = document.getElementById('signupPassword').value;
+    const confirmPassword = document.getElementById('signupConfirmPassword').value;
+    
+    if (!email || !password) {
+      showToast('Please fill in all fields', 'error');
+      return false;
+    }
+    
+    if (password !== confirmPassword) {
+      showToast('Passwords do not match', 'error');
+      return false;
+    }
+    
+    if (password.length < 6) {
+      showToast('Password must be at least 6 characters', 'error');
+      return false;
+    }
+    
+    document.getElementById('signupEmailHidden').value = email;
+    document.getElementById('signupPasswordHidden').value = password;
+    return true;
+  }
+
+  window.handleLogin = function() {
+    syncAuthFields("login");
+    login();
+  };
+
+  window.handleRegister = function() {
+    if (!syncSignupFields()) return;
+    
+    const email = document.getElementById('signupEmailHidden').value;
+    const password = document.getElementById('signupPasswordHidden').value;
+    if (signupMessage) {
+      signupMessage.textContent = '';
+    }
+    
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        showToast('Account created successfully!', 'success');
+        if (signupMessage) {
+          signupMessage.textContent = 'Account ready! Signing you in...';
+        }
+        // Automatically login after registration
+        setTimeout(() => {
+          signInWithEmailAndPassword(auth, email, password)
+            .then(() => {
+              showToast('Logged in successfully!', 'success');
+            })
+            .catch((error) => {
+              showToast(error.message, 'error');
+            });
+        }, 1000);
+      })
+      .catch((error) => {
+        if (signupMessage) {
+          signupMessage.textContent = error.message;
+        }
+        showToast(error.message, 'error');
+      });
+  };
+
+  window.login = function() {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    
+    if (!email || !password) {
+      showToast('Please fill in all fields', 'error');
+      return;
+    }
+    
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        currentUser = userCredential.user;
+        showToast('Logged in successfully!', 'success');
+      })
+      .catch((error) => {
+        showToast(error.message, 'error');
+      });
+  };
+
+  // User data functions
+  function loadUserData() {
+    if (!currentUser) return;
+    
+    const userRef = ref(db, `users/${currentUser.uid}`);
+    
+    onValue(userRef, (snapshot) => {
+      if (snapshot.exists()) {
+        userData = snapshot.val();
+        updateHomePage();
+        updateProfileDropdown();
+        loadUserScores();
+      } else {
+        // Create new user data
+        const displayName = currentUser.email.split('@')[0];
+        userData = {
+          email: currentUser.email,
+          displayName: displayName,
+          highScore: 0,
+          totalQuizzes: 0,
+          totalPoints: 0,
+          createdAt: Date.now(),
+          lastActive: Date.now()
+         };
+        set(userRef, userData).then(() => {
+          loadUserScores();
+        });
+      }
+    });
+  }
+
+  function updateUserStats(finalScore) {
+    if (!currentUser || !userData) return;
+    
+    const userRef = ref(db, `users/${currentUser.uid}`);
+    const updates = {};
+    
+    // Update high score if needed
+    if (finalScore > (userData.highScore || 0)) {
+      updates.highScore = finalScore;
+    }
+    
+    // Increment total quizzes
+    updates.totalQuizzes = (userData.totalQuizzes || 0) + 1;
+    updates.lastQuizDate = Date.now();
+    updates.lastActive = Date.now();
+    
+    const points = finalScore * 10;
+    const previousPoints = userData.totalPoints || 0;
+    const newTotalPoints = previousPoints + points;
+    updates.totalPoints = newTotalPoints;
+    
+    update(userRef, updates);
+    userData.totalPoints = newTotalPoints;
+
+    // Add score to leaderboard
+    const scoreRef = push(ref(db, 'scores'));
+    set(scoreRef, {
+      userId: currentUser.uid,
+      email: currentUser.email,
+      displayName: userData.displayName || currentUser.email.split('@')[0],
+      score: finalScore,
+      points,
+      timestamp: Date.now()
+    });
+
+    // Add to recent activity
+    addRecentActivity(`Scored ${finalScore}/10 on Korean quiz`);
+  }
+
+  // Home page functions
+  function updateHomePage() {
+    if (!userData) return;
+    
+    // Update welcome text
+    const welcomeText = document.getElementById('welcomeText');
+    const displayName = userData.displayName || currentUser.email.split('@')[0];
+    welcomeText.textContent = `Welcome, ${displayName}!`;
+    
+    // Update stats
+    document.getElementById('totalQuizzes').textContent = userData.totalQuizzes || 0;
+    document.getElementById('highScore').textContent = userData.highScore || 0;
+    const totalPointsEl = document.getElementById('totalPoints');
+    if (totalPointsEl) {
+      totalPointsEl.textContent = `${userData.totalPoints || 0} pts`;
+    }
+    
+    // Load rank
+    loadUserRank();
+  }
+
+  function loadUserRank() {
+    if (!currentUser) return;
+    
+    const scoresRef = ref(db, 'scores');
+    
+    onValue(scoresRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const scores = [];
+        snapshot.forEach((child) => {
+          scores.push({ ...child.val(), id: child.key });
+        });
+        
+        // Sort by score (descending)
+        scores.sort((a, b) => b.score - a.score);
+        
+        // Find user's rank
+        const userIndex = scores.findIndex(score => score.userId === currentUser.uid);
+        
+        if (userIndex !== -1) {
+          document.getElementById('rank').textContent = `#${userIndex + 1}`;
+        } else {
+          document.getElementById('rank').textContent = `#--`;
+        }
+      }
+    });
+  }
+
+  function addRecentActivity(text) {
+    const activityList = document.getElementById('recentActivity');
+    const activityItem = document.createElement('div');
+    activityItem.className = 'activity-item';
+    activityItem.innerHTML = `
+      <i class="fas fa-bolt"></i>
+      <span>${text}</span>
+    `;
+    
+    // Add to top
+    activityList.insertBefore(activityItem, activityList.firstChild);
+    
+    // Limit to 5 items
+    if (activityList.children.length > 5) {
+      activityList.removeChild(activityList.lastChild);
+    }
+  }
+
+  // Leaderboard functions
+  function loadLeaderboard() {
+    const leaderboardContainer = document.getElementById('leaderboardContainer');
+    if (!leaderboardContainer) return;
+
+    leaderboardContainer.innerHTML = '<div class="leaderboard-loading">Loading leaderboard...</div>';
+
+    if (leaderboardUnsubscribe) {
+      leaderboardUnsubscribe();
+      leaderboardUnsubscribe = null;
+    }
+
+    const usersRef = ref(db, 'users');
+    leaderboardUnsubscribe = onValue(usersRef, (snapshot) => {
+      if (!snapshot.exists()) {
+        leaderboardContainer.innerHTML = '<div class="leaderboard-empty">No learners found yet. Complete a quiz to appear here.</div>';
+        return;
+      }
+
+      const entries = [];
+      snapshot.forEach((child) => {
+        const data = child.val();
+        const displayName = data.displayName || (data.email || '').split('@')[0];
+        entries.push({
+          uid: child.key,
+          displayName: displayName || 'Learner',
+          email: data.email || 'anonymous@korean.quiz',
+          highScore: data.highScore || 0,
+          totalQuizzes: data.totalQuizzes || 0,
+          points: data.totalPoints ?? (data.highScore || 0) * 10
+        });
+      });
+
+      if (!entries.length) {
+        leaderboardContainer.innerHTML = '<div class="leaderboard-empty">No learners found yet. Complete a quiz to appear here.</div>';
+        return;
+      }
+
+      entries.sort((a, b) => (b.points || 0) - (a.points || 0));
+
+      leaderboardContainer.innerHTML = '';
+      entries.forEach((entry, index) => {
+        const rank = index + 1;
+        const avatarLetter = (entry.displayName || 'K').charAt(0).toUpperCase();
+
+        const leaderboardItem = document.createElement('div');
+        leaderboardItem.className = 'leaderboard-item';
+        leaderboardItem.innerHTML = `
+          <div class="rank ${rank <= 3 ? 'rank-' + rank : ''}">${rank}</div>
+          <div class="player-info">
+            <div class="player-avatar">${avatarLetter}</div>
+            <div class="player-details">
+              <div class="player-name">${entry.displayName}</div>
+              <div class="player-email">${entry.email}</div>
+            </div>
+          </div>
+          <div class="player-score">
+            <div class="score-value">${entry.points} pts</div>
+            <div class="score-secondary">HS ${entry.highScore} ・ ${entry.totalQuizzes} quizzes</div>
+          </div>
+        `;
+
+        if (currentUser && entry.uid === currentUser.uid) {
+          leaderboardItem.classList.add('is-current');
+        }
+
+        leaderboardContainer.appendChild(leaderboardItem);
+      });
+    });
+  }
+
+  function loadUserScores() {
+    if (!currentUser) return;
+
+    const historyList = document.getElementById('userScoresList');
+    if (!historyList) return;
+
+    historyList.innerHTML = '<div class="empty">Loading your scores...</div>';
+
+    const scoresRef = ref(db, 'scores');
+    if (userScoresUnsubscribe) {
+      userScoresUnsubscribe();
+      userScoresUnsubscribe = null;
+    }
+    userScoresUnsubscribe = onValue(scoresRef, (snapshot) => {
+      if (!snapshot.exists()) {
+        historyList.innerHTML = '<div class="empty">No quiz history yet. Play a quiz to see it here.</div>';
+        return;
+      }
+
+      const entries = [];
+      snapshot.forEach((child) => entries.push(child.val()));
+      const userEntries = entries
+        .filter(entry => entry.userId === currentUser.uid)
+        .sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+
+      if (!userEntries.length) {
+        historyList.innerHTML = '<div class="empty">No quiz history yet. Play a quiz to see it here.</div>';
+        return;
+      }
+
+      historyList.innerHTML = '';
+      userEntries.forEach(entry => {
+        const entryItem = document.createElement('div');
+        entryItem.className = 'score-history-item';
+        const playerName = entry.displayName || entry.email?.split('@')[0];
+        const points = entry.points ?? entry.score;
+        const date = entry.timestamp ? new Date(entry.timestamp).toLocaleString() : 'Just now';
+
+        entryItem.innerHTML = `
+          <div>
+            <div class="score-label">${points} pts</div>
+            <div class="score-date">${date}</div>
+          </div>
+          <div class="score-label">${playerName}</div>
+        `;
+
+        historyList.appendChild(entryItem);
+      });
+    });
+  }
+
+  // Quiz functions - Advanced
+  function getRandomQuestions() {
+    // Shuffle array and pick 10 random questions
+    const shuffled = [...quizQuestions].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, 10);
+  }
+
+  function startQuiz() {
+    // Get 10 random questions
+    currentQuizQuestions = getRandomQuestions();
+    
+    // Reset quiz state
+    currentQuestionIndex = 0;
+    score = 0;
+    selectedAnswer = null;
+    quizCompleted = false;
+    
+    // Update UI
+    document.getElementById('currentScore').textContent = 'Score: 0';
+    document.getElementById('nextQuestionBtn').style.display = 'none';
+    document.getElementById('finishQuizBtn').style.display = 'none';
+    
+    // Navigate to quiz page
+    navigateTo('quizPage');
+    loadQuestion();
+  }
+
+  function loadQuestion() {
+    if (currentQuestionIndex >= currentQuizQuestions.length) {
+      finishQuiz();
+      return;
+    }
+    
+    const question = currentQuizQuestions[currentQuestionIndex];
+    const progress = ((currentQuestionIndex) / currentQuizQuestions.length) * 100;
+    
+    // Update progress
+    document.getElementById('progressFill').style.width = `${progress}%`;
+    document.getElementById('progressText').textContent = `Question ${currentQuestionIndex + 1}/${currentQuizQuestions.length}`;
+    document.getElementById('questionNumber').textContent = `Question ${currentQuestionIndex + 1}`;
+    document.getElementById('questionText').textContent = question.q;
+    
+    // Clear previous answers
+    const answersGrid = document.getElementById('answersGrid');
+    answersGrid.innerHTML = '';
+    
+    // Add answer buttons
+    const answerLetters = ['A', 'B', 'C', 'D'];
+    const answerOptions = question.a.map((text, idx) => ({ text, idx }));
+    shuffleArray(answerOptions);
+    answerOptions.forEach((option, displayIndex) => {
+      const answerBtn = document.createElement('button');
+      answerBtn.className = 'answer-btn';
+      answerBtn.innerHTML = `
+        <div class="answer-letter">${answerLetters[displayIndex]}</div>
+        <span>${option.text}</span>
+      `;
+      answerBtn.dataset.originalIndex = option.idx;
+      answerBtn.addEventListener('click', () => selectAnswer(option.idx, answerBtn));
+      answersGrid.appendChild(answerBtn);
+    });
+    
+    // Hide next button initially
+    document.getElementById('nextQuestionBtn').style.display = 'none';
+    document.getElementById('finishQuizBtn').style.display = 'none';
+  }
+
+  function selectAnswer(answerIndex, buttonElement) {
+    if (selectedAnswer !== null || quizCompleted) return;
+    
+    selectedAnswer = answerIndex;
+    const question = currentQuizQuestions[currentQuestionIndex];
+    const answerButtons = document.querySelectorAll('.answer-btn');
+    
+    // Disable all buttons
+    answerButtons.forEach(btn => {
+      btn.classList.add('disabled');
+      btn.style.pointerEvents = 'none';
+    });
+    
+    // Check if correct
+    if (answerIndex === question.c) {
+      buttonElement.classList.add('correct');
+      score++;
+      document.getElementById('currentScore').textContent = `Score: ${score}`;
+      showToast('Correct! +1 point', 'success');
+    } else {
+      buttonElement.classList.add('incorrect');
+      // Highlight correct answer
+      const correctButton = Array.from(answerButtons).find(btn => Number(btn.dataset.originalIndex) === question.c);
+      if (correctButton) {
+        correctButton.classList.add('correct');
+      }
+      showToast('Incorrect!', 'error');
+    }
+    
+    // Show next/finish button
+    if (currentQuestionIndex === currentQuizQuestions.length - 1) {
+      document.getElementById('finishQuizBtn').style.display = 'block';
+    } else {
+      document.getElementById('nextQuestionBtn').style.display = 'block';
+    }
+  }
+
+  function nextQuestion() {
+    if (selectedAnswer === null) return;
+    
+    currentQuestionIndex++;
+    selectedAnswer = null;
+    
+    if (currentQuestionIndex < currentQuizQuestions.length) {
+      loadQuestion();
+    } else {
+      finishQuiz();
+    }
+  }
+
+  function finishQuiz() {
+    quizCompleted = true;
+    
+    // Update user stats
+    updateUserStats(score);
+    
+    // Show results
+    const questionCard = document.getElementById('questionCard');
+    questionCard.innerHTML = `
+      <div class="question-number">Quiz Complete!</div>
+      <div class="question-text">
+        <h2 style="color: var(--primary); margin-bottom: 12px; font-size: 1.3rem;">Your Score: ${score}/10</h2>
+        <p style="color: var(--text-light); margin-bottom: 16px; font-size: 0.95rem;">
+          ${score >= 9 ? 'Excellent! You\'re a Korean language expert! 🌟' : 
+            score >= 7 ? 'Great job! You know Korean well! 👍' : 
+            score >= 5 ? 'Good effort! Keep practicing! 💪' : 
+            'Keep learning! Practice makes perfect! 📚'}
+        </p>
+      </div>
+    `;
+    
+    // Hide answers and show home button
+    document.getElementById('answersGrid').innerHTML = '';
+    document.getElementById('nextQuestionBtn').style.display = 'none';
+    document.getElementById('finishQuizBtn').style.display = 'none';
+    
+    // Add button to go home
+    const quizControls = document.querySelector('.quiz-controls');
+    quizControls.innerHTML = '';
+    const backButton = document.createElement('button');
+    backButton.className = 'control-btn next-btn';
+    backButton.style.flex = '1';
+    backButton.innerHTML = '<i class="fas fa-home"></i> Back to Home';
+    backButton.addEventListener('click', () => {
+      navigateTo('homePage');
+      const homeNavButton = document.querySelector('[data-page=\"homePage\"]');
+      if (homeNavButton) {
+        homeNavButton.click();
+      }
+    });
+    quizControls.appendChild(backButton);
+
+    showToast(`Quiz completed! You scored ${score}/10`, 'success');
+  }
+
+  // Logout function
+  async function logout() {
+    try {
+      await signOut(auth);
+      showToast('Logged out successfully', 'success');
+      profileDropdown.style.display = 'none';
+      if (userScoresUnsubscribe) {
+        userScoresUnsubscribe();
+        userScoresUnsubscribe = null;
+      }
+      if (leaderboardUnsubscribe) {
+        leaderboardUnsubscribe();
+        leaderboardUnsubscribe = null;
+      }
+      // Show login page
+      showLogin();
+    } catch (error) {
+      showToast(error.message, 'error');
+    }
+  }
+
+  window.logout = logout;
+
+  // Set up next question button
+  document.getElementById('nextQuestionBtn').addEventListener('click', nextQuestion);
+  document.getElementById('finishQuizBtn').addEventListener('click', finishQuiz);
+
+  // Initialize browser history
+  window.history.replaceState({ page: 'homePage' }, '', '#homePage');
+
+  // Show login page by default
+  showLoginPage();
+</script>
+</body>
+</html>
